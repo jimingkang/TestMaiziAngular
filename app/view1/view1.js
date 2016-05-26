@@ -18,10 +18,6 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl',['$scope','$http','itemService',function($scope,$http,itemService) {
 
     $scope.getItems =function() {
-        /*itemService.getItems().then(function(data){
-            $scope.items=data;
-        });*/
-
         $http.get("items.json").success(function(resp) {
             console.log(resp);
             $scope.items= resp.items;
