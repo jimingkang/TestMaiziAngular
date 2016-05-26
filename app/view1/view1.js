@@ -6,7 +6,7 @@ angular.module('myApp.view1', ['ngRoute'])
   $routeProvider.when('/view1', {
     templateUrl: 'view1/view1.html',
     controller: 'View1Ctrl'
-  /*  ,resolve:{
+/*   ,resolve:{
       'items':['itemService',function(itemService){
       return itemService.getItems();
        }]
@@ -15,14 +15,22 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl','itemService', [function($scope,itemService) {
-    function constructor() {
-        $scope.items=[
-            {title: 'Pots', quantity: 8, price: 3.95},
-            {title: 'Dots', quantity: 17, price: 12.95},
-            {title: 'Pebbels', quantity: 5, price: 6.95}
-        ];
+.controller('View1Ctrl',['$scope','$http','itemService',function($scope,$http,itemService) {
+
+    $scope.getItems =function() {
+        /*itemService.getItems().then(function(data){
+            $scope.items=data;
+        });*/
+
+        $http.get("items.json").success(function(resp) {
+            console.log(resp);
+            $scope.items= resp.items;
+        });
     };
+    $scope.getItems();
+    console.log($scope.items);
+
+
 
   $scope.remove = function(index) {
     $scope.items.splice(index, 1);
