@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view1', {
@@ -14,11 +14,38 @@ angular.module('myApp.view1', ['ngRoute'])
     }*/
   });
 }])
+    .controller('scopedController',['$scope','$http','itemService',function($scope,$http,itemService) {
+       // $scope.orders=[];
+        $scope.putOrder = function(item) {
+            console.log(item);
+            $scope.orders.push(item);
+            return $scope.orders;
+        }
 
+        $scope.getOrders = function(item) {
+          //  remove(index)
+            $scope.orders.push(item);
+            console.log(""+$scope.orders);
+            return $scope.orders;
+        }
+
+    }])
+  /*  .controller('OtherController','$scope',function($scope){
+        $scope.pageChangeHandler = function(num) {
+            console.log('going to page ' + num);
+        };
+    })*/
 .controller('View1Ctrl',['$scope','$http','itemService',function($scope,$http,itemService) {
-
+    $scope.currentPage = 1;
+    $scope.pageSize = 2;
+    $scope.items = [];
+    $scope.orders=[];
     $scope.getItems =function() {
-        $http.get("items.json").success(function(resp) {
+   /*     itemService.getItems().then(function(data){
+            $scope.items=data;
+        });*/
+
+       $http.get("items.json").success(function(resp) {
             console.log(resp);
             $scope.items= resp.items;
         });
@@ -27,8 +54,35 @@ angular.module('myApp.view1', ['ngRoute'])
     console.log($scope.items);
 
 
-
+    $scope.pageChangeHandler = function(num) {
+        console.log('items page changed to ' + num);
+    };
   $scope.remove = function(index) {
     $scope.items.splice(index, 1);
   };
-}]);
+}])
+    .directive('scopedInterventionMatchedItem', ['ScopedInterventionMatchesService', function(ScopedInterventionMatchesService) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                title: '@',
+                item: '=',
+                status: '=',
+             orders:'=',
+                fireScrollToEvent: '&'
+             
+            },
+            templateUrl: 'view1/link.html',
+            controller:'scopedController',
+            link: function (scope, elem, iAttre) {
+                scope.staticText = resources.messages.analytics.assessment;
+
+                scope.ScopedInterventionMatchesService = ScopedInterventionMatchesService;
+
+            }
+        };
+    }])
+
+
+;
