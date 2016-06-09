@@ -30,11 +30,7 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
         }
 
     }])
-  /*  .controller('OtherController','$scope',function($scope){
-        $scope.pageChangeHandler = function(num) {
-            console.log('going to page ' + num);
-        };
-    })*/
+
 .controller('View1Ctrl',['$scope','$http','itemService',function($scope,$http,itemService) {
     $scope.currentPage = 1;
     $scope.pageSize = 2;
@@ -51,7 +47,6 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
         });
     };
     $scope.getItems();
-    console.log($scope.items);
 
 
     $scope.pageChangeHandler = function(num) {
@@ -83,6 +78,7 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
             }
         };
     }])
+
 
 
 ;
