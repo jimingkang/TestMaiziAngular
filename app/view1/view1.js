@@ -15,7 +15,7 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
   });
 }])
     .controller('scopedController',['$scope','$http','itemService',function($scope,$http,itemService) {
-       // $scope.orders=[];
+        $scope.orders=[];
         $scope.putOrder = function(item) {
             console.log(item);
             $scope.orders.push(item);
@@ -35,7 +35,7 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
     $scope.currentPage = 1;
     $scope.pageSize = 2;
     $scope.items = [];
-    $scope.orders=[];
+    //$scope.orders=[];
     $scope.getItems =function() {
    /*     itemService.getItems().then(function(data){
             $scope.items=data;
@@ -72,7 +72,6 @@ angular.module('myApp.view1', ['ngRoute','angularUtils.directives.dirPagination'
             controller:'scopedController',
             link: function (scope, elem, iAttre) {
                 scope.staticText = resources.messages.analytics.assessment;
-
                 scope.ScopedInterventionMatchesService = ScopedInterventionMatchesService;
 
             }
